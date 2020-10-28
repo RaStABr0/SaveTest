@@ -1,7 +1,10 @@
-﻿using System;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
+using UnityEngine.Events;
 
 //TODO: решить, как имплементировать в основной проект.
 /// <summary>
@@ -42,98 +45,72 @@ public class SaveSystem : MonoBehaviour
     /// <summary>
     /// Вызывается в начале операции сохранения.
     /// </summary>
-    public EventHandler OnSaveOperationBegan;
+    public UnityEvent OnSaveOperationBegan;
     
     /// <summary>
     /// Вызывается при успешном завершении операции сохранения.
     /// </summary>
-    public EventHandler OnSaveOperationCompleted;
+    public UnityEvent OnSaveOperationCompleted;
 
     /// <summary>
     /// Вызывается при непредвиденном прерывании операции сохранения.
     /// </summary>
-    public EventHandler OnSaveOperationInterrupted;
+    public UnityEvent OnSaveOperationInterrupted;
     
     /// <summary>
     /// Вызывается в начале операции загрузки.
     /// </summary>
-    public EventHandler OnLoadOperationBegan;
+    public UnityEvent OnLoadOperationBegan;
     
     /// <summary>
     /// Вызывается при успешном завершении операции загрузки.
     /// </summary>
-    public EventHandler OnLoadOperationCompleted;
+    public UnityEvent OnLoadOperationCompleted;
 
     /// <summary>
     /// Вызывается при непредвиденном прерывании операции загрузки.
     /// </summary>
-    public EventHandler OnLoadOperationInterrupted;
-    
+    public UnityEvent OnLoadOperationInterrupted;
+
     /// <summary>
     /// Сохраняет данные объектов.
     /// </summary>
     public void Save()
     {
-        OnSaveOperationBegan?.Invoke(this, EventArgs.Empty);
-        
-        try
+        OnSaveOperationBegan?.Invoke();
+
+        var objectsToSave = FindObjectsOfType<SavableBase>();
+        var json = string.Empty;
+
+        foreach (var savable in objectsToSave)
         {
-            var objectsToSave = FindObjectsOfType<SavableBase>();
-            var json = string.Empty;
-            
-            foreach (var savable in objectsToSave)
+            json += $"{savable.Save()}\n";
+        }
+        json += END_OF_FILE_LABEL;
+
+        new Thread(() =>
+        {
+            try
             {
-                json += $"{savable.Save()}\n";
+                File.WriteAllText(_mainSaveFilePath, json);
+                OnSaveOperationCompleted?.Invoke();
             }
-
-            json += END_OF_FILE_LABEL;
-            
-            File.WriteAllText(_mainSaveFilePath, json);
-
-            OnSaveOperationCompleted?.Invoke(this, EventArgs.Empty);
-
-            File.WriteAllText(_saveCopyFilePath, json);
-
-        }
-        catch (Exception e)
+            catch
+            {
+                OnSaveOperationInterrupted?.Invoke();
+            }        
+        }).Start();
+        
+        new Thread(() =>
         {
-            OnSaveOperationInterrupted?.Invoke(this, EventArgs.Empty);
-        }
+            File.WriteAllText(_saveCopyFilePath, json);
+        }).Start();
     }
 
     /// <summary>
     /// Загружает данные объектов.
     /// </summary>
-    public void Load()
-    {
-        OnLoadOperationBegan?.Invoke(this, EventArgs.Empty);
-        
-        try
-        {
-            var json = File.ReadAllLines(_mainSaveFilePath).ToList();
-
-            if (!json.Contains(END_OF_FILE_LABEL))
-            {
-                json = File.ReadAllLines(_saveCopyFilePath).ToList();
-            }
-               
-            var objectsToLoad = FindObjectsOfType<SavableBase>();
-
-            foreach (var savable in objectsToLoad)
-            {
-                var objectData = json.First(s => s.Contains(savable.Id));
-                json.Remove(objectData);
-                savable.Load(objectData);
-            }
-            
-            OnLoadOperationCompleted?.Invoke(this, EventArgs.Empty);
-
-        }
-        catch (Exception e)
-        {
-            OnLoadOperationInterrupted?.Invoke(this, EventArgs.Empty);
-        }
-    }
+    public void Load() => StartCoroutine(LoadAsync());
 
     private void Awake() => InitSaveDataPath();
 
@@ -165,5 +142,52 @@ public class SaveSystem : MonoBehaviour
 
         _mainSaveFilePath = Path.Combine(saveDirectoryPath, MAIN_SAVE_NAME);
         _saveCopyFilePath = Path.Combine(saveDirectoryPath, SAVE_COPY_NAME);
+    }
+
+    /// <summary>
+    /// Реализует асинхронную загрузку.
+    /// </summary>
+    private IEnumerator LoadAsync()
+    {
+        var isDataLoaded = false;
+        
+        OnLoadOperationBegan?.Invoke();
+
+        var json = new List<string>();
+
+        try
+        {
+            new Thread(() =>
+            {
+                json = File.ReadAllLines(_mainSaveFilePath).ToList();
+
+                if (!json.Contains(END_OF_FILE_LABEL))
+                {
+                    json = File.ReadAllLines(_saveCopyFilePath).ToList();
+                }
+
+                isDataLoaded = true;
+            }).Start();
+        }
+        catch
+        {
+            OnLoadOperationInterrupted?.Invoke();
+        }
+        
+        var objectsToLoad = FindObjectsOfType<SavableBase>();
+
+        while (!isDataLoaded)
+        {
+            yield return null;
+        }
+        
+        foreach (var savable in objectsToLoad)
+        {
+            var objectData = json.First(s => s.Contains(savable.Id));
+            json.Remove(objectData);
+            savable.Load(objectData);
+        }
+            
+        OnLoadOperationCompleted?.Invoke();
     }
 }

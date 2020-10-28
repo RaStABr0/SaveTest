@@ -71,9 +71,12 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3037C104-6402-4032-80AB-8B0782CA806F/90/46d63946/RootEditorAttribute.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9577AC7A-62EF-4317-9789-031239BA8798/03/bccb631f/File.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/05250243-5982-472D-92DA-7F939C7F8164/e2/2cff1cfb/Component.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/05250243-5982-472D-92DA-7F939C7F8164/31/64b90b70/Transform.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/05250243-5982-472D-92DA-7F939C7F8164/de/8f719828/ShaderVariantCollection.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9577AC7A-62EF-4317-9789-031239BA8798/74/d28175ed/TextWriter.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9577AC7A-62EF-4317-9789-031239BA8798/2c/7bf11e27/Guid.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -89,8 +92,8 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Savable1.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Abstracts/SavableDataBase.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/TransformData.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/SaveSystem.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Savable.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/SaveSystem.cs" />
       </list>
     </option>
   </component>
@@ -140,7 +143,7 @@
       <updated>1603446401969</updated>
       <workItem from="1603446405902" duration="10701000" />
       <workItem from="1603841881288" duration="460000" />
-      <workItem from="1603842439075" duration="7356000" />
+      <workItem from="1603842439075" duration="14045000" />
     </task>
     <servers />
   </component>
@@ -252,24 +255,5 @@
       <screen x="0" y="0" width="2752" height="1112" />
     </state>
     <state x="1194" y="470" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.2752.1112@0.0.2752.1112" timestamp="1603842066015" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/SaveSystem.cs</url>
-          <line>83</line>
-          <properties documentPath="C:\Projects\SaveTest\SaveTest\Assets\Scripts\SaveSystem.cs" initialLine="49">
-            <startOffsets>
-              <option value="2285" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2323" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
