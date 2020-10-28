@@ -50,13 +50,11 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\SaveSystem.cs" />
-     <Compile Include="Assets\Scripts\Abstracts\ISavable.cs" />
-     <Compile Include="Assets\Scripts\Abstracts\SaveDataBase.cs" />
-     <Compile Include="Assets\Scripts\Savable1.cs" />
-     <Compile Include="Assets\Scripts\Savable2.cs" />
      <Compile Include="Assets\Scripts\Abstracts\SavableBase.cs" />
+     <Compile Include="Assets\Scripts\Savable.cs" />
      <Compile Include="Assets\Scripts\TransformData.cs" />
+     <Compile Include="Assets\Scripts\SaveSystem.cs" />
+     <Compile Include="Assets\Scripts\Abstracts\SavableDataBase.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Projects/SaveTest/SaveTest/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>

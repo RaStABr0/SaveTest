@@ -1,28 +1,38 @@
 ﻿using System;
 using UnityEngine;
 
+/// <summary>
+/// Родитель для компонентов всех сохраняемых объектов.
+/// </summary>
 public abstract class SavableBase : MonoBehaviour
 {
+    /// <summary>
+    /// Идентификатор сохраняемого компонента.
+    /// </summary>
     [SerializeField] private string _id;
-    
-    public string Id { get; private set; }
 
-    public abstract void Save();
-    
-    public abstract void Load();
-    
-    public abstract void SetData();
-    
+    /// <summary>
+    /// Идентификатор сохраняемого компонента.
+    /// </summary>
+    public string Id => _id;
+
+    /// <summary>
+    /// Сохранить данные.
+    /// </summary>
+    /// <returns>Json-строка.</returns>
+    public abstract string Save();
+
+    /// <summary>
+    /// Загрузить данные.
+    /// </summary>
+    /// <param name="json">Json-строка.</param>
+    public abstract void Load(string json);
+
     private void OnValidate()
     {
-        if (Id == string.Empty)
+        if (_id == string.Empty)
         {
-            Id = Guid.NewGuid().ToString();
+            _id = Guid.NewGuid().ToString();
         }
-    }
-
-    private abstract class SavableData
-    {
-        
     }
 }

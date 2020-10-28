@@ -6,12 +6,10 @@
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
           <e p="Abstracts" t="Include">
-            <e p="ISavable.cs" t="Include" />
             <e p="SavableBase.cs" t="Include" />
-            <e p="SaveDataBase.cs" t="Include" />
+            <e p="SavableDataBase.cs" t="Include" />
           </e>
-          <e p="Savable1.cs" t="Include" />
-          <e p="Savable2.cs" t="Include" />
+          <e p="Savable.cs" t="Include" />
           <e p="SaveSystem.cs" t="Include" />
           <e p="TransformData.cs" t="Include" />
         </e>
